@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure+ SOC</title>
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    function toggleDescription(eventId) {
+      var description = document.getElementById(eventId);
+      if (description.style.display === 'none' || description.style.display === '') {
+        description.style.display = 'block';
+      } else {
+        description.style.display = 'none';
+      }
+    }
+
+    function toggleSection(sectionId) {
+      var sections = document.querySelectorAll('section');
+      sections.forEach(section => {
+        section.style.display = (section.id === sectionId) ? 'block' : 'none';
+      });
+    }
+
+    function drawChart() {
+      var canvas = document.getElementById('monitorChart');
+      if (canvas.getContext) {
+        var ctx = canvas.getContext('2d');
+        // Dados de exemplo para o gráfico (valores em pixels)
+        var data = [100, 200, 150, 300, 250];
+        var barWidth = 40;
+        var gap = 20;
+        // Limpar canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Desenha as barras
+        for (var i = 0; i < data.length; i++) {
+          ctx.fillStyle = '#2196F3';
+          ctx.fillRect(i * (barWidth + gap), canvas.height - data[i], barWidth, data[i]);
+        }
+      }
+    }
+
+    window.onload = function() {
+      drawChart();
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f7f6;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    /* Header */
+    header {
+      background-color: #2196F3;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      text-align: center;
+    }
+
+    nav ul li {
+      display: inline;
+      margin: 0 15px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    nav ul li a:hover {
+      color: #ff9800;
+    }
+
+    section {
+      display: none;
+      padding: 20px;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    section#home {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Monitoramento - Gráfico */
+    .dashboard {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    #monitorChart {
+      border: 1px solid #ddd;
+      background-color: #fff;
+      margin-top: 20px;
+    }
+
+    /* Linha do Tempo */
+    .timeline {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px;
+    }
+
+    .timeline-event {
+      padding: 15px;
+      background-color: #fff;
+      border-radius: 6px;
+      margin: 20px 0;
+      position: relative;
+      width: 45%;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .timeline-event-left {
+      left: 0;
+      transform: translateX(0);
+      background-color: #e3f2fd;
+    }
+
+    .timeline-event-right {
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #e1f5fe;
+    }
+
+    .timeline-event-title {
+      font-weight: bold;
+      cursor: pointer;
+      color: #2196F3;
+      margin-top: 10px;
+      transition: color 0.3s ease;
+    }
+
+    .timeline-event-title:hover {
+      color: #ff9800;
+    }
+
+    .timeline-event-description {
+      margin-top: 10px;
+      display: none;
+      color: #333;
+      background-color: #f9f9f9;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .timeline-event .event-icon {
+      font-size: 30px;
+      color: #2196F3;
+      position: absolute;
+      top: 10px;
+      left: -40px;
+    }
+
+    .timeline-event:hover {
+      transform: translateX(10px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .timeline-event-description a {
+      color: #2196F3;
+      text-decoration: none;
+    }
+
+    .timeline-event-description a:hover {
+      text-decoration: underline;
+    }
+
+    .timeline-introduction {
+      text-align: center;
+      margin-bottom: 40px;
+      background-color: #e3f2fd;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .timeline-introduction h2 {
+      color: #2196F3;
+    }
+
+    footer {
+      background-color: #2196F3;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: 20px;
+    }
+
+    /* Equipe */
+    .equipe-container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .membro {
+      text-align: center;
+      margin: 10px;
+      max-width: 200px;
+    }
+
+    .membro img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Secure+ Security Operations Center</h1>
+    <nav>
+      <ul>
+        <li><a href="#home" onclick="toggleSection('home')">🏠 Início</a></li>
+        <li><a href="#monitoramento" onclick="toggleSection('monitoramento')">📊 Monitoramento</a></li>
+        <li><a href="#relatorios" onclick="toggleSection('relatorios')">📑 Relatórios</a></li>
+        <li><a href="#contato" onclick="toggleSection('contato')">📞 Contato</a></li>
+        <li><a href="#linha-do-tempo" onclick="toggleSection('linha-do-tempo')">📅 Linha do Tempo</a></li>
+        <li><a href="#equipe" onclick="toggleSection('equipe')">👥 Nossa Equipe</a></li>
+        <li><a href="Nist.html">📜 Principais Diretrizes do NIST</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="home">
+    <h2>Bem-vindo ao SOC da Secure+</h2>
+    <p>Protegendo a infraestrutura digital da empresa com as melhores práticas de segurança.</p>
+  </section>
+
+  <section id="monitoramento">
+    <h2>Monitoramento em Tempo Real</h2>
+    <p>Visualize métricas de segurança e status do sistema.</p>
+    <div class="dashboard">
+      <p><strong>Status:</strong> Todos os sistemas operacionais</p>
+      <p><strong>Ameaças detectadas:</strong> Nenhuma</p>
+      <!-- Gráfico de monitoramento -->
+      <canvas id="monitorChart" width="400" height="300"></canvas>
+    </div>
+  </section>
+
+  <section id="relatorios">
+    <h2>Relatórios de Segurança</h2>
+    <p>Acesse relatórios detalhados e comunicados de segurança.</p>
+    <ul>
+      <li><a href="#">Relatório Mensal - Fevereiro 2025</a></li>
+      <li><a href="#">Análise de Incidentes</a></li>
+    </ul>
+  </section>
+
+  <section id="contato">
+    <h2>Contatos</h2>
+    <p>Entre em contato com nossa equipe de segurança:</p>
+    <ul>
+      <li>João Silva - joao@secureplus.com | (11) 99999-9999</li>
+      <li>Maria Oliveira - maria@secureplus.com | (21) 98888-8888</li>
+      <li>Carlos Mendes - carlos@secureplus.com | (31) 97777-7777</li>
+      <li>Ana Souza - ana@secureplus.com | (41) 96666-6666</li>
+    </ul>
+  </section>
+
+  <section id="linha-do-tempo">
+    <div class="timeline-introduction">
+      <h2>Linha do Tempo dos Grandes Ataques Cibernéticos</h2>
+      <p>Compreender os grandes ataques cibernéticos do passado é essencial para fortalecer nossas defesas e nos preparar para os desafios futuros.</p>
+    </div>
+    <div class="timeline">
+      <!-- Ataques ordenados cronologicamente -->
+      <div class="timeline-event timeline-event-left">
+        <div class="event-icon">🔒</div>
+        <div class="timeline-event-date">2000</div>
+        <div class="timeline-event-title" onclick="toggleDescription('desc-iloveyou')">Virus ILOVEYOU</div>
+        <div class="timeline-event-description" id="desc-iloveyou">
+          O vírus ILOVEYOU causou danos significativos em sistemas de e-mail e redes ao redor do mundo.
+          <br><a href="https://www.techtudo.com.br/noticias/2021/05/um-dos-maiores-virus-da-historia-o-caso-do-iloveyou.html" target="_blank">Leia mais</a>
+        </div>
+      </div>
+
+      <div class="timeline-event timeline-event-right">
+        <div class="event-icon">💣</div>
+        <div class="timeline-event-date">2010</div>
+        <div class="timeline-event-title" onclick="toggleDescription('desc-stuxnet')">Stuxnet</div>
+        <div class="timeline-event-description" id="desc-stuxnet">
+          Stuxnet foi um malware sofisticado projetado para atacar sistemas de controle industrial.
+          <br><a href="https://g1.globo.com/tecnologia/noticia/2021/06/28/stuxnet-o-malware-que-introduziu-a-nova-era-dos-ciberataques.ghtml" target="_blank">Leia mais</a>
+        </div>
+      </div>
+
+      <div class="timeline-event timeline-event-left">
+        <div class="event-icon">🏦</div>
+        <div class="timeline-event-date">2016</div>
+        <div class="timeline-event-title" onclick="toggleDescription('desc-bangladesh')">Ataque ao Banco Central de Bangladesh</div>
+        <div class="timeline-event-description" id="desc-bangladesh">
+          Em 2016, hackers roubaram $81 milhões da conta do Banco Central de Bangladesh utilizando ciberataques.
+          <br><a href="https://www.bbc.com/portuguese/internacional-35601214" target="_blank">Leia mais</a>
+        </div>
+      </div>
+
+      <div class="timeline-event timeline-event-right">
+        <div class="event-icon">⚡</div>
+        <div class="timeline-event-date">2017</div>
+        <div class="timeline-event-title" onclick="toggleDescription('desc-wannacry')">WannaCry</div>
+        <div class="timeline-event-description" id="desc-wannacry">
+          O WannaCry afetou centenas de milhares de sistemas ao redor do mundo, explorando uma vulnerabilidade do Windows.
+          <br><a href="https://www.bbc.com/portuguese/internacional-39969823" target="_blank">Leia mais</a>
+        </div>
+      </div>
+
+      <div class="timeline-event timeline-event-left">
+        <div class="event-icon">💼</div>
+        <div class="timeline-event-date">2020</div>
+        <div class="timeline-event-title" onclick="toggleDescription('desc-solarwinds')">SolarWinds</div>
+        <div class="timeline-event-description" id="desc-solarwinds">
+          O ataque SolarWinds comprometeu grandes organizações através da infiltração de um software usado por agências de governo.
+          <br><a href="https://www.bbc.com/portuguese/internacional-55239374" target="_blank">Leia mais</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="equipe">
+    <h2>Nossa Equipe</h2>
+    <div class="equipe-container">
+      <div class="membro">
+        <img src="./foto01.jpeg" alt="Edilaine Souza">
+        <h3>Edilaine Souza</h3>
+        <p>Analista de Segurança Cibernética</p>
+      </div>
+      <div class="membro">
+        <img src="./foto02.jpeg" alt="Magno Bitencourt">
+        <h3>Magno Bitencourt</h3>
+        <p>Especialista em Resposta a Incidentes</p>
+      </div>
+      <div class="membro">
+        <img src="./foto03.jpeg" alt="Bruno Moura">
+        <h3>Bruno Moura</h3>
+        <p>Engenheiro de Segurança da Informação</p>
+      </div>
+      <div class="membro">
+        <img src="./foto04.jpeg" alt="Matheus Alves">
+        <h3>Matheus Alves</h3>
+        <p>Administrador de Sistemas</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Secure+ - Todos os direitos reservados</p>
+  </footer>
+</body>
+</html>
